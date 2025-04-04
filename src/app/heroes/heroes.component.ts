@@ -5,6 +5,7 @@ import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
 import {HeroDetail} from '../hero-detail/hero-detail.component'
 import { HttpResponseBase } from '@angular/common/http';
+import { MessageService } from '../message.service';
 
 @Component({
   selector: 'app-heroes',
@@ -18,15 +19,18 @@ import { HttpResponseBase } from '@angular/common/http';
 export class HeroesComponent {
   heroes: Hero[] = [];
   selectedHero?: Hero;
+  constructor(private heroService: HeroService, private messageService: MessageService) {}
+  ngOnInit(): void {
+    this.getHeroes();
+  }
+
   onSelect(hero: Hero): void {
     this.selectedHero = hero;
   }
-  constructor(private heroService: HeroService) {}
+
   getHeroes(): void {
     this.heroService.getHeroes()
       .subscribe(heroes => this.heroes = heroes)
   }
-  ngOnInit(): void {
-    this.getHeroes();
-  }
+  
 }
